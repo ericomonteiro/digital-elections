@@ -1,4 +1,4 @@
-package com.github.ericomonteiro.elections.entrypoint.rest
+package com.github.ericomonteiro.elections.entrypoint.rest.v1
 
 import com.github.ericomonteiro.elections.domain.entity.Election
 import com.github.ericomonteiro.elections.entrypoint.converters.toDomain
@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
-@RequestMapping("election")
+@RequestMapping("v1/election")
 class ElectionController(
     private val createElection: CreateElection,
     private val listAllElections: ListAllElections
