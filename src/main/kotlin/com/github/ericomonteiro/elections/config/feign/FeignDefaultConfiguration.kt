@@ -1,11 +1,12 @@
 package com.github.ericomonteiro.elections.config.feign
 
-import okhttp3.OkHttpClient
+import org.apache.http.impl.client.CloseableHttpClient
+import org.apache.http.impl.client.HttpClientBuilder
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.zalando.logbook.Logbook
-import org.zalando.logbook.okhttp.GzipInterceptor
-import org.zalando.logbook.okhttp.LogbookInterceptor
+import org.zalando.logbook.httpclient.LogbookHttpRequestInterceptor
+import org.zalando.logbook.httpclient.LogbookHttpResponseInterceptor
 
 @Configuration
 class FeignDefaultConfiguration(
@@ -13,10 +14,9 @@ class FeignDefaultConfiguration(
 ) {
 
     @Bean
-    fun client(): OkHttpClient =
-        OkHttpClient.Builder()
-            .addNetworkInterceptor(LogbookInterceptor(logbook))
-            .addNetworkInterceptor(GzipInterceptor())
-            .build()
+    fun client(): CloseableHttpClient = HttpClientBuilder.create()
+        .addInterceptorFirst(LogbookHttpRequestInterceptor(logbook))
+        .addInterceptorFirst(LogbookHttpResponseInterceptor())
+        .build()
 
 }
